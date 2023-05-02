@@ -23,7 +23,7 @@ users_routes.post("/registration", async (req, res) => {
     }
 });
 
-users_routes.post("/addExpenses", async (req, res) => {
+users_routes.post("/Add_daily_expense", async (req, res) => {
     const expenseId=req.body.expensesId;
     const expenseData=await Expenses.findOne({expensesId:expenseId});
     const newExpenses = new UsersExpenses({
@@ -76,7 +76,7 @@ users_routes.get("/statisticsPage/:userSnn", async (req, res) => {
 });
 
 
-users_routes.get("/getAllExpenses/:userSnn", async (req, res) => {
+users_routes.get("/groupExpenses/:userSnn", async (req, res) => {
     const userSnn = req.params.userSnn;
     try {
 
@@ -102,11 +102,18 @@ users_routes.get("/getAllExpenses/:userSnn", async (req, res) => {
                 res.json({ error: error.message });
             })
 
-        //
-
-        // res.json({ allExpenses: allExpenses });
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+});
+
+users_routes.get("/homePage/:userSnn",async(req,res)=>{
+    const userSnn=req.params.userSnn;
+    try {
+        const allExpenses=await UsersExpenses.find({userSnn:userSnn});
+        res.json({expenses:allExpenses});
+    } catch (error) {
+        res.status(400).json({message:error.message});
     }
 });
 
