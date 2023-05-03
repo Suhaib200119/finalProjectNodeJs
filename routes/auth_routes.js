@@ -15,7 +15,7 @@ auth_routes.post("/login",async(req,res)=>{
             res.status(200).json({
                 status:"true",
                 userInformations:result,
-                expenses:expenses
+                userExpenses:expenses
             });
         }else{
             res.status(200).json({
