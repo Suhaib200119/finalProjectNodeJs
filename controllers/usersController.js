@@ -114,7 +114,39 @@ const homePage=async(req,res,next)=>{
     }
 }
 
+//new api 
+// const avgExpenses=async(req,res,next)=>{
+//     const userSnn = req.params.userSnn;
+//     try {
+
+//         UsersExpenses.aggregate([
+
+//             { $match: { userSnn: userSnn }, },
+//             {
+//                 $group:
+//                 {
+//                     _id: { expensesName: "$expensesName" },
+//                     totalExpensesValue: { $sum: "$expensesValue" },
+//                 },
+//             }
+
+
+//         ])
+//             .then(result => {
+
+//                 res.json({ result: result });
+
+//             })
+//             .catch(error => {
+//                 res.json({ error: error.message });
+//             })
+
+//     } catch (error) {
+//         res.status(400).json({ message: error.message });
+//     }
+// }
 
 module.exports={
     homePage,groupExpenses,statisticsPage,add_daily_expense,registration
+    // ,avgExpenses
 }
