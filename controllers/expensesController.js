@@ -4,7 +4,6 @@ const addExpenses=async(req,res,next)=>{
         expensesId:req.body.expensesId,
         expensesName:req.body.expensesName
     });
-
     try {
         const result = await expensesData.save();
         res.status(200).json({
