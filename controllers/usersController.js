@@ -77,26 +77,22 @@ const groupExpenses=async(req,res,next)=>{
     try {
 
         UsersExpenses.aggregate([
-
-            { $match: { userSnn: userSnn }, },
+            { 
+                $match: { 
+                    userSnn: userSnn 
+                }, 
+            },
             {
-                $group:
-                {
+                $group:{
                     _id: { expensesName: "$expensesName" },
                     totalExpensesValue: { $sum: "$expensesValue" },
                 },
-            }
-
-
-        ])
-            .then(result => {
-
+            },
+        ]).then(result => {
                 res.json({ result: result });
-
-            })
-            .catch(error => {
+            }).catch(error => {
                 res.json({ error: error.message });
-            })
+            });
 
     } catch (error) {
         res.status(400).json({ message: error.message });
