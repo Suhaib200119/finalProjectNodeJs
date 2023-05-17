@@ -2,24 +2,6 @@ const Users = require("../models/users");
 const UsersExpenses = require("../models/user_expenses");
 const Expenses = require("../models/expenses");
 
-const registration=async(req,res,next)=>{
-    const newUser = new Users({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        salary: req.body.salary,
-        reminderSalary: req.body.reminderSalary,
-        snn: req.body.snn
-    });
-    try {
-        const result = await newUser.save();
-        res.status(200).json({ message: "Account successfully created", informations: result });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-}
-
-
 const add_daily_expense=async(req,res,next)=>{
     const expenseId=req.body.expensesId;
     const expenseData=await Expenses.findOne({expensesId:expenseId});
@@ -109,40 +91,6 @@ const homePage=async(req,res,next)=>{
         res.status(400).json({message:error.message});
     }
 }
-
-//new api 
-// const avgExpenses=async(req,res,next)=>{
-//     const userSnn = req.params.userSnn;
-//     try {
-
-//         UsersExpenses.aggregate([
-
-//             { $match: { userSnn: userSnn }, },
-//             {
-//                 $group:
-//                 {
-//                     _id: { expensesName: "$expensesName" },
-//                     totalExpensesValue: { $sum: "$expensesValue" },
-//                 },
-//             }
-
-
-//         ])
-//             .then(result => {
-
-//                 res.json({ result: result });
-
-//             })
-//             .catch(error => {
-//                 res.json({ error: error.message });
-//             })
-
-//     } catch (error) {
-//         res.status(400).json({ message: error.message });
-//     }
-// }
-
 module.exports={
-    homePage,groupExpenses,statisticsPage,add_daily_expense,registration
-    // ,avgExpenses
+    homePage,groupExpenses,statisticsPage,add_daily_expense
 }

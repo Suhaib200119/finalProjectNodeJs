@@ -13,6 +13,7 @@ const usersSchema=new mongoose.Schema({
    password:{
       type:String,
       required:true,
+      minlength:[9,"the min length 9"]
    },
    salary:{
       type:Number,
