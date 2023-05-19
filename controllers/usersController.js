@@ -2,14 +2,19 @@ const Users = require("../models/users");
 const UsersExpenses = require("../models/user_expenses");
 const Expenses = require("../models/expenses");
 
-const add_daily_expense=async(req,res,next)=>{
-    const expenseId=req.body.expensesId;
-    const expenseData=await Expenses.findOne({expensesId:expenseId});
+const add_daily_expense = async (req, res, next) => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const expenseId = req.body.expensesId;
+    const expenseData = await Expenses.findOne({ expensesId: expenseId });
     const newExpenses = new UsersExpenses({
         userSnn: req.body.userSnn,
         expensesId: req.body.expensesId,
-        expensesName:expenseData.expensesName,
-        expensesDate: Date.now(),
+        expensesName: expenseData.expensesName,
+        expensesDate: formattedDate,
         expensesValue: req.body.expensesValue,
     });
     try {
@@ -32,7 +37,7 @@ const add_daily_expense=async(req,res,next)=>{
     }
 }
 
-const statisticsPage=async(req,res,next)=>{
+const statisticsPage = async (req, res, next) => {
     const userSnn = req.params.userSnn;
     try {
         const userData = await Users.findOne({ snn: userSnn });
@@ -54,27 +59,27 @@ const statisticsPage=async(req,res,next)=>{
     }
 }
 
-const groupExpenses=async(req,res,next)=>{
+const groupExpenses = async (req, res, next) => {
     const userSnn = req.params.userSnn;
     try {
 
         UsersExpenses.aggregate([
-            { 
-                $match: { 
-                    userSnn: userSnn 
-                }, 
+            {
+                $match: {
+                    userSnn: userSnn
+                },
             },
             {
-                $group:{
+                $group: {
                     _id: { expensesName: "$expensesName" },
                     totalExpensesValue: { $sum: "$expensesValue" },
                 },
             },
         ]).then(result => {
-                res.json({ result: result });
-            }).catch(error => {
-                res.json({ error: error.message });
-            });
+            res.json({ result: result });
+        }).catch(error => {
+            res.json({ error: error.message });
+        });
 
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -82,15 +87,17 @@ const groupExpenses=async(req,res,next)=>{
 }
 
 
-const homePage=async(req,res,next)=>{
-    const userSnn=req.params.userSnn;
+const homePage = async (req, res, next) => {
+    const userSnn = req.params.userSnn;
     try {
-        const allExpenses=await UsersExpenses.find({userSnn:userSnn});
-        res.json({expenses:allExpenses});
+        console.log(`userSnn : ${userSnn}`);
+        const allExpenses = await UsersExpenses.find({ userSnn: userSnn });
+        console.log(`allExpenses : ${allExpenses}`);
+        res.json({ expenses: allExpenses });
     } catch (error) {
-        res.status(400).json({message:error.message});
+        res.status(400).json({ message: error.message });
     }
 }
-module.exports={
-    homePage,groupExpenses,statisticsPage,add_daily_expense
+module.exports = {
+    homePage, groupExpenses, statisticsPage, add_daily_expense
 }
