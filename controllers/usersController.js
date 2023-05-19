@@ -98,6 +98,37 @@ const homePage = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+
+const groupExpensesByDate = async (req, res, next) => {
+    const userSnn = req.params.userSnn;
+    try {
+
+        UsersExpenses.aggregate([
+            {
+                $match: {
+                    userSnn: userSnn
+                },
+            },
+            {
+                $group: {
+                    _id: { expensesDate: "$expensesDate" },
+                    totalExpensesValue: { $sum: "$expensesValue" },
+                },
+            },
+        ]).then(result => {
+            res.json({ result: result });
+        }).catch(error => {
+            res.json({ error: error.message });
+        });
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+
 module.exports = {
-    homePage, groupExpenses, statisticsPage, add_daily_expense
+    homePage, groupExpenses, statisticsPage, add_daily_expense , groupExpensesByDate
 }
