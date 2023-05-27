@@ -6,10 +6,9 @@ const auth_routes=require("./routes/auth_routes");
 const users_routes=require("./routes/users_routes");
 const expenses_routes=require("./routes/expenses_routes");
 app.use(express.json());
-
-
 const connectWithDataBase=require("./databaseConnection");
-const createHttpError = require("http-errors");
+
+// const createHttpError = require("http-errors");
 connectWithDataBase();
 
 const server=http.createServer(app);

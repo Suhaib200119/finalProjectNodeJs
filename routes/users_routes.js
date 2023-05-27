@@ -12,5 +12,3 @@ users_routes.get("/groupExpenses/:userSnn",usersController.groupExpenses);
 
 users_routes.get("/homePage/:userSnn",usersController.homePage);
 users_routes.get("/chart/:userSnn",usersController.groupExpensesByDate);
-
-

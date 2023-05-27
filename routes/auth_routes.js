@@ -19,13 +19,13 @@ auth_routes.post("/login",async(req,res)=>{
                     userExpenses:expenses
                 });
             }else{
-                res.status(200).json({
+                res.status(400).json({
                     status:"false",
                     message:"Invalid Password"
                 });
             }
         }else{
-            res.status(200).json({
+            res.status(400).json({
                 status:"false",
                 message:"Invalid Email"
             });
@@ -49,7 +49,7 @@ auth_routes.post("/registration",async(req,res,next)=>{
             email: req.body.email,
             password: hasedPassword,
             salary: req.body.salary,
-            reminderSalary: req.body.reminderSalary,
+            reminderSalary:req.body.salary,
             snn: req.body.snn
         });
         try {
@@ -59,7 +59,7 @@ auth_routes.post("/registration",async(req,res,next)=>{
             res.status(400).json({ message: error.message });
         }
     }else{
-        res.json({message: "the email or snn used , you must replace the email or password",});
+        res.json({message: "the email or snn used , you must replace the email or snn",});
     }
     
 });

@@ -13,7 +13,7 @@ const usersSchema=new mongoose.Schema({
    password:{
       type:String,
       required:true,
-      minlength:[9,"the min length 9"]
+      minlength:[5,"the min length 9"],
    },
    salary:{
       type:Number,
@@ -21,7 +21,7 @@ const usersSchema=new mongoose.Schema({
    },
    reminderSalary:{
       type:Number,
-      required:true,
+   
    },
    snn:{
       type:String,
@@ -29,5 +29,6 @@ const usersSchema=new mongoose.Schema({
       minlength:[9,"the min length 9"]
    },
 });
+
 
 module.exports=mongoose.model("users",usersSchema);
