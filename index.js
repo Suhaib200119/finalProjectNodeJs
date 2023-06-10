@@ -15,10 +15,7 @@ const server=http.createServer(app);
 server.listen(3000,()=>{
     console.log("Server Run On Port 3000 ");
 });
-process.on("unhandledRejection",(reason)=>{
-    console.log(reason);
-    process.exit(-1);
-});
+
 
 app.use("/api/auth",auth_routes);
 app.use("/api/users",users_routes);
